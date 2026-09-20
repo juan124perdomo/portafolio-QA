@@ -1,0 +1,16 @@
+# Temporales de Word/Excel cuando están abiertos
+~$*
+
+# Basura del sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Copias de seguridad
+*_backup*
+
+# Guía y notas internas (NO van al portafolio público, se quedan solo en tu PC)
+0 - EMPIEZA AQUI (guia).docx
+**/_Que va aqui.txt
+**/_Como funciona.txt
+**/_Aqui van las capturas.txt
