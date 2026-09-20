@@ -57,4 +57,31 @@ import { CheckoutCompletePage } from '../pages/CheckoutCompletePage';
             await expect(page).toHaveURL('/inventory.html');
         });
 
+
+        //* "Carrito vacío permite completar compra".
+        //*Este test afirma el comportamiento CORRECTO, no el actual, así que falla a propósito.
+        //*El día que Sauce Labs lo arregle, este test va a pasar y hay que quitarle el .fail
+        test.fail('El botón Checkout debe estar deshabilitado con el carrito vacío', async ({ page }) => {
+
+            //Instanciar las clases de las paginas
+            const loginPage = new LoginPage(page);
+            const inventoryPage = new InventoryPage(page);
+            const carrito = new CartPage(page);
+
+            //iniciar sesión
+            await loginPage.ir();
+            await loginPage.login('standard_user', 'secret_sauce');
+            await expect(page).toHaveURL('/inventory.html');
+
+            //ir al carrito sin agregar ningún producto
+            await inventoryPage.irAlCarrito();
+            await expect(page).toHaveURL('/cart.html');
+
+            //precondición: el carrito está realmente vacío
+            await expect(carrito.nombresProductos).toHaveCount(0);
+
+            //la verificación: con el carrito vacío no se debería poder avanzar a pagar
+            await expect(carrito.botonCheckout).toBeDisabled();
+        });
+
     })
