@@ -1,0 +1,52 @@
+# Corre la suite de Playwright sola, en un servidor de GitHub, en cada push.
+name: Pruebas automatizadas
+
+# Cuándo se dispara
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  pruebas:
+    # Si algo se cuelga, cortar a la hora
+    timeout-minutes: 60
+    # La máquina que nos presta GitHub
+    runs-on: ubuntu-latest
+
+    # Todos los comandos de abajo se corren parados en esta carpeta.
+    # Las comillas van porque el nombre tiene espacios.
+    defaults:
+      run:
+        working-directory: "04 - automatizacion-playwright"
+
+    steps:
+      # 1. Traer el código del repo a la máquina
+      - uses: actions/checkout@v6
+
+      # 2. Instalar Node
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+
+      # 3. Instalar las dependencias exactas del package-lock.json
+      - name: Instalar dependencias
+        run: npm ci
+
+      # 4. Instalar Chromium, Firefox y WebKit (la máquina viene sin navegadores)
+      - name: Instalar navegadores
+        run: npx playwright install --with-deps
+
+      # 5. Correr la suite
+      - name: Correr las pruebas
+        run: npx playwright test
+
+      # 6. Guardar el reporte HTML para poder descargarlo.
+      #    Esta ruta NO usa el working-directory de arriba: va completa desde la raíz.
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: reporte-playwright
+          path: "04 - automatizacion-playwright/playwright-report/"
+          retention-days: 30
