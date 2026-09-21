@@ -9,9 +9,17 @@ import { CheckoutCompletePage } from '../pages/CheckoutCompletePage';
     //*Pruebas de la tienda
     test.describe('Pruebas de la tienda', () => {
         let loginPage : LoginPage;
+        let inventoryPage : InventoryPage;
+        let carrito : CartPage;
+        
 
         test.beforeEach(async({page})=>{
+            //instacias globales
             loginPage = new LoginPage(page);
+            inventoryPage = new InventoryPage(page);
+            carrito = new CartPage(page)
+            
+
 
             await loginPage.ir();
             await loginPage.login('standard_user', 'secret_sauce');
@@ -22,8 +30,6 @@ import { CheckoutCompletePage } from '../pages/CheckoutCompletePage';
         test('Compra completa de un producto', async ({ page }) => {
 
             //Instanciar las clases de las paginas
-            const inventoryPage = new InventoryPage(page);
-            const carrito = new CartPage(page);
             const checkout = new CheckoutPage(page);
             const checkoutOverview = new CheckoutOverviewPage(page);
             const checkoutComplete = new CheckoutCompletePage(page);
@@ -68,9 +74,7 @@ import { CheckoutCompletePage } from '../pages/CheckoutCompletePage';
         //*El día que Sauce Labs lo arregle, este test va a pasar y hay que quitarle el .fail
         test.fail('El botón Checkout debe estar deshabilitado con el carrito vacío', async ({ page }) => {
 
-            //Instanciar las clases de las paginas
-            const inventoryPage = new InventoryPage(page);
-            const carrito = new CartPage(page);
+            
             //ir al carrito sin agregar ningún producto
             await inventoryPage.irAlCarrito();
             await expect(page).toHaveURL('/cart.html');
