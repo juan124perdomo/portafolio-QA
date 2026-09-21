@@ -1,5 +1,7 @@
 # Portafolio QA — Juan Felipe Perdomo Merchán
 
+[![Pruebas automatizadas](https://github.com/juan124perdomo/portafolio-QA/actions/workflows/playwright.yml/badge.svg)](https://github.com/juan124perdomo/portafolio-QA/actions/workflows/playwright.yml)
+
 Analista Funcional y de Calidad de Software (QA). Este repositorio muestra un ciclo de pruebas completo sobre una aplicación pública: **análisis funcional → plan de pruebas → ejecución manual con evidencias → automatización**.
 
 **Aplicación bajo prueba:** [SauceDemo](https://www.saucedemo.com) · usuario `standard_user`
