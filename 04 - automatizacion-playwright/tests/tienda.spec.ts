@@ -8,12 +8,20 @@ import { CheckoutCompletePage } from '../pages/CheckoutCompletePage';
 
     //*Pruebas de la tienda
     test.describe('Pruebas de la tienda', () => {
+        let loginPage : LoginPage;
+
+        test.beforeEach(async({page})=>{
+            loginPage = new LoginPage(page);
+
+            await loginPage.ir();
+            await loginPage.login('standard_user', 'secret_sauce');
+            await expect(page).toHaveURL('/inventory.html');
+        })
 
         //*Prueba del flujo de compra completo: agregar un producto, pagar y confirmar la orden
         test('Compra completa de un producto', async ({ page }) => {
 
             //Instanciar las clases de las paginas
-            const loginPage = new LoginPage(page);
             const inventoryPage = new InventoryPage(page);
             const carrito = new CartPage(page);
             const checkout = new CheckoutPage(page);
@@ -24,10 +32,7 @@ import { CheckoutCompletePage } from '../pages/CheckoutCompletePage';
             const producto = 'Sauce Labs Backpack';
             const totalEsperado = 'Total: $32.39';
 
-            //iniciar sesión
-            await loginPage.ir();
-            await loginPage.login('standard_user', 'secret_sauce');
-            await expect(page).toHaveURL('/inventory.html');
+            
 
             //agregar producto al carrito
             await inventoryPage.agregarAlCarrito(producto);
@@ -64,15 +69,8 @@ import { CheckoutCompletePage } from '../pages/CheckoutCompletePage';
         test.fail('El botón Checkout debe estar deshabilitado con el carrito vacío', async ({ page }) => {
 
             //Instanciar las clases de las paginas
-            const loginPage = new LoginPage(page);
             const inventoryPage = new InventoryPage(page);
             const carrito = new CartPage(page);
-
-            //iniciar sesión
-            await loginPage.ir();
-            await loginPage.login('standard_user', 'secret_sauce');
-            await expect(page).toHaveURL('/inventory.html');
-
             //ir al carrito sin agregar ningún producto
             await inventoryPage.irAlCarrito();
             await expect(page).toHaveURL('/cart.html');
