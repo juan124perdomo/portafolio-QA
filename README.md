@@ -67,6 +67,11 @@ Ese es el ciclo completo: el defecto se encontró probando a mano, se documentó
 | `tienda.spec.ts` | Compra completa: login → agregar producto → carrito → datos → resumen → confirmación |
 | `tienda.spec.ts` | El botón Checkout debe estar deshabilitado con el carrito vacío — prueba de regresión del defecto de arriba, marcada como falla esperada |
 
+**Reporte HTML de una corrida completa** (`npx playwright show-report`) — los 4 casos en los 3 navegadores, 12/12:
+
+![Reporte de Playwright: Login.spec.ts, 6 casos en chromium, firefox y webkit, todos en verde](img/reporte.png)
+![Reporte de Playwright: tienda.spec.ts, 6 casos en chromium, firefox y webkit, todos en verde](img/reporte-2.png)
+
 ### Cómo ejecutarla
 
 ```bash
@@ -91,6 +96,8 @@ La suite no depende de que alguien se acuerde de correrla. En cada push a `maste
 El reporte HTML de cada ejecución queda disponible para descargar desde la pestaña **Actions**.
 
 En ese entorno la configuración cambia sola: un solo worker y dos reintentos, para que la carga de la máquina no genere fallas intermitentes. El workflow está en `.github/workflows/playwright.yml`.
+
+![GitHub Actions: tres corridas del workflow "Pruebas automatizadas", las tres en verde](img/CI-actions.png)
 
 ---
 
