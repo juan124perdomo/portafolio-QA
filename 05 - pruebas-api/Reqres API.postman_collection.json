@@ -1,0 +1,264 @@
+{
+  "info": {
+    "_postman_id": "925b9e87-f1c9-44af-918f-e4689370131f",
+    "name": "Reqres API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "47401511"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST Login exitoso",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"el status es 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"La peticion trae el token\", function () {\r\n  const body = pm.response.json();\r\n  pm.expect(body).to.have.property(\"token\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n  \"password\": \"cityslicka\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "login"
+              ]
+            },
+            "description": "Caso: login con email y password válidos (usuario de demo de reqres).  \nPrecondición: entorno Reqres activo.  \nResultado esperado: 200 y un campo token en el cuerpo."
+          },
+          "response": []
+        },
+        {
+          "name": "POST Login sin password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"el status es un codigo 400 \", function () {\r\n  pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"La peticion trae el error\", function () {\r\n  const body = pm.response.json();\r\n  pm.expect(body).to.have.property(\"error\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"eve.holt@reqres.in\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "login"
+              ]
+            },
+            "description": "Caso: login enviando solo el email, sin el campo password.  \nPrecondición: entorno Reqres activo.  \nResultado esperado: 400 y un campo error en el cuerpo (\"Missing password\")."
+          },
+          "response": []
+        },
+        {
+          "name": "Login usuario inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"el status es 400\", function () {\r\n  pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"el error indica que el usuario no existe\", function () {\r\n  const body = pm.response.json();\r\n  pm.expect(body.error).to.eql(\"user not found\");   // eql compara el valor exacto\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"noexiste@reqres.in\",\r\n  \"password\": \"cityslicka\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "login"
+              ]
+            },
+            "description": "Caso: login con un email que no está registrado ([noexiste@reqres.in](https://mailto:noexiste@reqres.in)).  \nPrecondición: entorno Reqres activo.  \nResultado esperado: 400 y un campo error (\"user not found\").  \nNota: una API real devolvería 401 o 404; reqres usa 400 para todo error de login."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Usuario existente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"el status es 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"el usuario trae el campo email\", function () {\r\n  const body = pm.response.json();\r\n  pm.expect(body.data).to.have.property(\"email\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "2"
+              ]
+            },
+            "description": "Caso: consultar un usuario que existe (id 2).  \nPrecondición: entorno Reqres activo.  \nResultado esperado: 200 y, dentro de data, los campos id, email, first_name, last_name y avatar."
+          },
+          "response": []
+        },
+        {
+          "name": "Usuario inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"el status es 404\", function () {\r\n  pm.response.to.have.status(404);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "23"
+              ]
+            },
+            "description": "Caso: consultar un usuario que no existe (id 23).  \nPrecondición: entorno Reqres activo.  \nResultado esperado: 404. El cuerpo llega vacío ({}), sin mensaje de error."
+          },
+          "response": []
+        },
+        {
+          "name": "Listar usuarios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"el status es 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"la paginación es coherente\", function () {\r\n  const body = pm.response.json();\r\n  pm.expect(body.page).to.eql(2);\r\n  pm.expect(body.per_page).to.eql(6);\r\n  pm.expect(body.total).to.eql(12);\r\n  pm.expect(body.total_pages).to.eql(2);\r\n});\r\n\r\npm.test(\"data trae 6 usuarios\", function () {\r\n  const body = pm.response.json();\r\n  pm.expect(body.data).to.be.an(\"array\");       // es una lista\r\n  pm.expect(body.data).to.have.lengthOf(6);     // con exactamente 6 elementos\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users?page=2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                }
+              ]
+            },
+            "description": "Caso: listar usuarios de la segunda página (?page=2).  \nPrecondición: entorno Reqres activo.  \nResultado esperado: 200, page 2, per_page 6, total 12, total_pages 2 y 6 usuarios en data."
+          },
+          "response": []
+        },
+        {
+          "name": "Listar usuarios página fuera de rango",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"el status es 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"data viene vacía\", function () {\r\n  const body = pm.response.json();\r\n  pm.expect(body.data).to.have.lengthOf(0);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users?page=3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "3"
+                }
+              ]
+            },
+            "description": "Caso: pedir una página mayor a la última (?page=3, con solo 2 páginas).  \nPrecondición: entorno Reqres activo.  \nResultado observado: 200 con data vacía, aunque page (3) supera a total_pages (2).  \nNota: decisión de diseño abierta; se documenta el comportamiento actual, no un criterio de aceptación."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
