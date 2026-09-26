@@ -17,6 +17,7 @@ Analista Funcional y de Calidad de Software (QA). Este repositorio muestra un ci
 | `02 - Plan de pruebas` | Matrices de casos diseñados antes de ejecutar: tipo de prueba, datos, elemento a probar y resultado esperado. |
 | `03 - Modulos probados` | Ejecución real: matrices con estado (OK / NOK / PDTE), fecha y evidencias en capturas. Incluye el reporte del defecto encontrado. |
 | `04 - automatizacion-playwright` | Suite automatizada con Playwright y TypeScript, organizada con Page Object Model. |
+| [`05 - pruebas-api`](05%20-%20pruebas-api) | Colección de Postman contra la API pública de reqres.in: 7 requests y 14 tests, con casos positivos y negativos. |
 
 ---
 
@@ -101,9 +102,17 @@ En ese entorno la configuración cambia sola: un solo worker y dos reintentos, p
 
 ---
 
+## Pruebas de API
+
+La automatización de arriba prueba lo que se ve en pantalla. La carpeta [`05 - pruebas-api`](05%20-%20pruebas-api) prueba lo que responde el servidor: una colección de Postman sobre [reqres.in](https://reqres.in) que cubre inicio de sesión y consulta de usuarios, con verificaciones de código de estado y de contenido en cada respuesta.
+
+SauceDemo no expone una API, por eso esta parte usa otra aplicación pública. El detalle de los casos, lo que se observó de la API y cómo importarla está en el [README de la carpeta](05%20-%20pruebas-api/README.md).
+
+---
+
 ## Herramientas
 
-Playwright · TypeScript · Node.js · Git y GitHub · Excel y Word para la documentación de pruebas · Azure DevOps (gestión de defectos, en entorno laboral)
+Playwright · TypeScript · Node.js · Postman · Git y GitHub · Excel y Word para la documentación de pruebas · Azure DevOps (gestión de defectos, en entorno laboral)
 
 ---
 

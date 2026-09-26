@@ -36,6 +36,8 @@ Un request por caso de prueba, agrupados por recurso. Cada request tiene en su p
 
 **7 requests, 14 tests.** Son cifras distintas porque un mismo request puede tener varias verificaciones.
 
+**Última ejecución completa:** 26-sep-2026, con el Runner de Postman y el entorno `Reqres` — **14/14 en verde**, 0 errores, 3,4 s en total.
+
 ---
 
 ## Cómo usarla
