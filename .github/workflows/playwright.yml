@@ -19,7 +19,7 @@ jobs:
     # Las comillas van porque el nombre tiene espacios.
     defaults:
       run:
-        working-directory: "04 - automatizacion-playwright"
+        working-directory: "1 - SauceDemo (UI)/04 - automatizacion-playwright"
 
     steps:
       # 1. Traer el código del repo a la máquina
@@ -48,5 +48,5 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: reporte-playwright
-          path: "04 - automatizacion-playwright/playwright-report/"
+          path: "1 - SauceDemo (UI)/04 - automatizacion-playwright/playwright-report/"
           retention-days: 30

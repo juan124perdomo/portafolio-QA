@@ -1,8 +1,10 @@
-# Pruebas de API con Postman
+# Proyecto 2 · Reqres (pruebas de API con Postman)
 
 Colección de Postman que prueba la API pública [reqres.in](https://reqres.in): inicio de sesión y consulta de usuarios. Cubre casos positivos y negativos, y cada caso lleva su descripción y sus verificaciones con `pm.test`.
 
-Complementa las pruebas de interfaz de `04 - automatizacion-playwright`: aquella prueba lo que se ve en pantalla; esta prueba lo que responde el servidor.
+Complementa las pruebas de interfaz del [Proyecto 1 · SauceDemo](../1%20-%20SauceDemo%20%28UI%29/README.md): aquellas prueban lo que se ve en pantalla; esta prueba lo que responde el servidor.
+
+[← Volver al portafolio](../README.md)
 
 **API bajo prueba:** `https://reqres.in/api`
 **Herramienta:** Postman
@@ -56,7 +58,7 @@ Todas las URLs usan `{{baseUrl}}`. Para probar contra otro ambiente basta con ca
 
 ```bash
 npm install -g newman newman-reporter-htmlextra
-cd "05 - pruebas-api"
+cd "2 - Reqres (API)"
 newman run "Reqres API.postman_collection.json" -e "Reqres.postman_environment.json" -r "cli,htmlextra"
 ```
 
@@ -66,8 +68,8 @@ newman run "Reqres API.postman_collection.json" -e "Reqres.postman_environment.j
 
 **Corrida del 26-sep-2026:** 7 requests, 14 aserciones, 0 fallidas.
 
-![Resumen de Newman en consola: 7 requests y 14 aserciones, ninguna fallida](../img/newman-consola.png)
-![Reporte HTML de Newman (htmlextra): 1 iteración, 14 aserciones, 0 tests fallidos](../img/newman-reporte.png)
+![Resumen de Newman en consola: 7 requests y 14 aserciones, ninguna fallida](img/newman-consola.png)
+![Reporte HTML de Newman (htmlextra): 1 iteración, 14 aserciones, 0 tests fallidos](img/newman-reporte.png)
 
 **Al leer una falla, primero se mira qué código llegó.** Un `429` (cuota agotada) o un error de red como `ENOTFOUND` hacen fallar las aserciones sin que haya un defecto en la API ni en las pruebas: es el entorno. Un `429` además no cuenta como request fallido, porque el servidor sí respondió; solo se ve en el detalle de cada aserción (`expected 200 but got 429`).
 
