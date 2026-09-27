@@ -50,6 +50,29 @@ Todas las URLs usan `{{baseUrl}}`. Para probar contra otro ambiente basta con ca
 
 ---
 
+## Ejecución por consola con Newman
+
+[Newman](https://www.npmjs.com/package/newman) corre la misma colección desde la terminal, sin abrir Postman. Es la forma en que un servidor de integración continua ejecuta pruebas de API.
+
+```bash
+npm install -g newman newman-reporter-htmlextra
+cd "05 - pruebas-api"
+newman run "Reqres API.postman_collection.json" -e "Reqres.postman_environment.json" -r "cli,htmlextra"
+```
+
+- `-e` indica el entorno contra el que se corre.
+- `-r "cli,htmlextra"` muestra el resultado en consola y además genera un reporte HTML en la carpeta `newman/`. Esa carpeta no se sube al repositorio: los reportes se regeneran en cada corrida.
+- Newman termina con código de salida `0` si todos los tests pasan y `1` si alguno falla. Ese código es el que usa un pipeline para marcar la ejecución en verde o en rojo.
+
+**Corrida del 26-sep-2026:** 7 requests, 14 aserciones, 0 fallidas.
+
+![Resumen de Newman en consola: 7 requests y 14 aserciones, ninguna fallida](../img/newman-consola.png)
+![Reporte HTML de Newman (htmlextra): 1 iteración, 14 aserciones, 0 tests fallidos](../img/newman-reporte.png)
+
+**Al leer una falla, primero se mira qué código llegó.** Un `429` (cuota agotada) o un error de red como `ENOTFOUND` hacen fallar las aserciones sin que haya un defecto en la API ni en las pruebas: es el entorno. Un `429` además no cuenta como request fallido, porque el servidor sí respondió; solo se ve en el detalle de cada aserción (`expected 200 but got 429`).
+
+---
+
 ## Observaciones sobre la API
 
 Lo que se notó al probar. reqres es una API de demostración, así que no se registran como defectos, pero sí como criterios que una API real debería cumplir:
